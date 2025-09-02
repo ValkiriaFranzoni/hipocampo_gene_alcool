@@ -1,0 +1,33 @@
+# ===========================================================
+# Projeto: Impacto do Álcool no Hipocampo - .gitignore
+# Linguagem: R
+# ===========================================================
+
+# Arquivos do R e RStudio
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Rprofile
+
+# Ambiente virtual (renv)
+renv/library/
+renv/staging/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Saídas geradas automaticamente
+imagens/
+resultados/
+*.png
+*.pdf
+*.html
+
+# Logs e temporários
+*.log
+*.tmp
+
+# Dados processados (não versionar, sempre regenerados pelos scripts)
+data/processed/

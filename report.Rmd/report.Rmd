@@ -1,0 +1,138 @@
+---
+title: "Impacto do Álcool no Hipocampo"
+author: "Valkiria Franzoni dos Anjos da Costa"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  word_document: default
+---
+
+# Introdução
+
+Este projeto tem como objetivo avaliar como o **consumo crônico de álcool** pode impactar a expressão de genes inflamatórios no hipocampo.  
+O foco está em três genes principais: **IL6, TNF e IL1B**.  
+Além disso, analiso dados de sobrevivência (Kaplan-Meier) e potenciais **alvos terapêuticos**.  
+
+> Observação pessoal: a parte de expressão gênica foi a que mais exigiu ajustes, especialmente para organizar os dados de entrada.
+
+---
+
+# Dados Clínicos
+
+```{r}
+# Carregar dados clínicos processados
+clinicos <- read.csv("data/processed/clinicos.csv")
+
+# Primeiras linhas, para checar se o arquivo está correto
+head(clinicos)
+
+
+# Expressão Gênica
+
+# Os dados de expressão estão no arquivo expressoes.csv, que já foi previamente organizado.
+
+library(readr)
+
+# Carregar dados de expressão
+expressoes <- read_csv("data/processed/expressoes.csv")
+head(expressoes)
+
+
+# Boxplot das Expressões
+
+# Os dados de expressão estão no arquivo expressoes.csv, que já foi previamente organizado
+
+library(ggplot2)
+
+ggplot(expressoes, aes(x = Condicao, y = Expressao, fill = Gene)) +
+  geom_boxplot(alpha = 0.6, outlier.shape = 21) +
+  geom_jitter(width = 0.15, alpha = 0.5, size = 2) +
+  labs(
+    title = "Expressão de Genes Inflamatórios",
+    x = "Condição",
+    y = "Nível de expressão"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
+
+# Nota: aparentemente o IL1B foi o gene que mais variou, especialmente no período de abstinência. Isso pode ser um indício de ativação inflamatória persistente
+
+
+
+# Tendência da Expressão
+
+# Aqui calculo a média de expressão de cada gene por condição para visualizar a tendência
+
+library(dplyr)
+
+dados_media <- expressoes %>%
+  group_by(Gene, Condicao) %>%
+  summarise(media = mean(Expressao, na.rm = TRUE), .groups = "drop")
+
+ggplot(dados_media, aes(x = Condicao, y = media, group = Gene, color = Gene)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  labs(
+    title = "Tendência da Expressão Gênica",
+    x = "Condição",
+    y = "Média de expressão"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
+
+Aqui fica claro que IL6 diminui na abstinência, mas volta a subir no pós-inflamação
+Esse comportamento merece ser investigado com mais amostras
+
+
+# Análise de Sobrevivência (Kaplan-Meier)
+
+# Os dados clínicos foram usados para construir curvas de sobrevivência por condição
+
+library(survival)
+library(survminer)
+
+# Criar objeto de sobrevivência
+surv_obj <- Surv(time = clinicos$Tempo, event = clinicos$Status)
+
+# Ajustar o modelo Kaplan-Meier
+fit <- survfit(surv_obj ~ Condicao, data = clinicos)
+
+# Plotar curvas
+km_plot <- ggsurvplot(
+  fit,
+  data = clinicos,
+  risk.table = TRUE,
+  pval = TRUE,
+  ggtheme = theme_minimal(),
+  title = "Curvas de Kaplan-Meier por Condição"
+)
+
+print(km_plot)
+
+# Durante a execução, percebi que algumas curvas ficaram muito próximas. Isso pode ser reflexo do tamanho amostral
+
+
+# Alvos Terapêuticos
+
+# A partir das tabelas suplementares, organizei os principais alvos terapêuticos potenciais
+
+# Carregar tabela de alvos
+alvos <- read.csv("data/processed/alvos_terapeuticos.csv")
+head(alvos)
+
+# Vale destacar que IL1B e IL1R1 apareceram como fortes candidatos. Isso reforça a hipótese da via inflamatória como ponto chave
+
+
+#Conclusão
+
+Os dados clínicos foram processados e utilizados na análise de sobrevivência
+
+Os gráficos de expressão gênica mostraram diferenças relevantes entre condições experimentais
+
+Foram identificados potenciais alvos terapêuticos associados à neuroinflamação
+
+O projeto pode servir como base para estudos maiores e mais detalhados
+
+# Observação final: este relatório reflete uma primeira exploração dos dados.
+Algumas análises ainda podem ser refinadas, mas já fornecem pistas importantes sobre o impacto do álcool no hipocampo  
+

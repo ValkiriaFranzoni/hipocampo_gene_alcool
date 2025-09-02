@@ -1,0 +1,43 @@
+# ===========================================================
+# Projeto: Impacto do Álcool no Hipocampo - Kaplan-Meier
+# Linguagem: R
+# Pacotes necessários: survival, survminer, readr
+# Rodar: Rscript kaplan_meier.R
+# ===========================================================
+
+library(survival)
+library(survminer)
+library(readr)
+
+# 1. Carregar dados clínicos
+# Esperado: colunas [PacienteID, Tempo, Status, Condicao]
+# Status = 1 (óbito/evento), 0 (censurado)
+dados <- read_csv("../dados/clinicos.csv")
+
+head(dados)
+
+# 2. Criar objeto de sobrevivência
+surv_obj <- Surv(time = dados$Tempo, event = dados$Status)
+
+# 3. Ajustar modelo Kaplan-Meier por condição
+fit <- survfit(surv_obj ~ Condicao, data = dados)
+
+# 4. Plotar curva
+km_plot <- ggsurvplot(
+  fit,
+  data = dados,
+  pval = TRUE,
+  risk.table = TRUE,
+  ggtheme = theme_minimal(),
+  title = "Curvas de Kaplan-Meier por Condição"
+)
+
+# Salvar gráfico
+ggsave("../imagens/kaplan_meier.png", km_plot$plot, width = 8, height = 6)
+
+print("Curvas de Kaplan-Meier salvas em /imagens")
+
+
+#cd scripts_R
+Rscript kaplan_meier.R
+

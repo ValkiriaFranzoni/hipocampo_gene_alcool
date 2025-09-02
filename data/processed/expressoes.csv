@@ -1,0 +1,14 @@
+Gene,Condicao,Expressao,Fonte,Linha
+"TNF,Pre_Inflamacao,1.25,NIHMS512449-supplement-02.xlsx,""7960518 TNFRSF1A tumor necrosis factor receptor superfamily, member 1A 1.25 0.0026 0.15 A"""
+TNF,Pre_Inflamacao,-1.12,NIHMS512449-supplement-02.xlsx,7947540 TRAF6 TNF receptor-associated factor 6 -1.12 0.0041 0.16
+"TNF,Abstinencia,2.692,NIHMS512449-supplement-03.xlsx,""MYCN   2.692 transcription regulator CCND1, RPL12, RPL19, RPL23A, RPL24, RPL29, RPL35, RPL39, RPL7, RPLP0, RPS17/RPS17L, RPS2, RPS3A, RPS5, SLC38A2, TGM2, TNFRSF1A, TUBA1B"""
+"IL1B,Abstinencia,2.524,NIHMS512449-supplement-03.xlsx,""IL1B   2.524 cytokine ANGPTL4, APP, C1R, CEBPD, CYB5R3, DDIT4, DNMT1, EDN1, ERBB2, FKBP5, GADD45A, HMGN2, HSPA1A/HSPA1B, IGFBP3, IL1R1, IL1RL1, MT2A, NR4A2, OSMR, PAPPA, PLD1, PSEN1, RHOB, RPSA, S100A"""
+"TNF,Abstinencia,-1.29,NIHMS512449-supplement-03.xlsx,""NR3C1 -1.29 2.311 ligand-dependent nuclear receptor AKT1, ANGPTL4, APP, BCL6, C1R, CCND1, DDIT4, DEAF1, DUSP16, EDN1, ELMOD3, FASTKD1, FKBP4, FKBP5, GADD45A, GRM3, HNRNPU, IFIH1, IFIT2, ING3, KLF9, MD"""
+"TNF,Abstinencia,2.2,NIHMS512449-supplement-03.xlsx,""IL15   2.2 cytokine CD59, CDH1, DDX18, DPYSL5, EDN1, GGT5, HNRNPA2B1, HSPA8, HSPE1, IFIT1, KLRG1, PLD1, PNP, RPS3A, SRSF7, TIMP1, TNFRSF1A"""
+"TNF,Abstinencia,2.177,NIHMS512449-supplement-03.xlsx,""IL10   2.177 cytokine C10orf10, CCND3, CD163, FKBP5, HDAC9, IFIT2, IL1R1, IL4R, S100A8, SOCS3, TIMP1, TNFRSF1A, TRAF6, TSC22D3"""
+"TNF,Abstinencia,1.08,NIHMS512449-supplement-03.xlsx,""FOXO3 1.08 1.539 transcription regulator CCND1, DDIT4, DOK5, GADD45A, MTHFD2, PIK3IP1, TNFRSF1A, TXNIP"""
+"TNF,Abstinencia,-1.689,NIHMS512449-supplement-03.xlsx,""beta-estradiol   -1.689 chemical - endogenous mammalian ACADVL, ADORA1, ALDH4A1, APP, ATM, BCL6, CCNA1, CCNA2, CCND1, CCND3, CDH1, CFB, CXADR, DDIT4, EDN1, EML2, ERBB2, FMO5, FSHB, GADD45A, GFM1, GJB1"""
+"TNF,Pos_Inflamacao,,NIHMS512449-supplement-04.xlsx,""CD40 7, 10 CD40 molecule, TNF receptor superfamily member 5"""
+TNF,Pos_Inflamacao,,NIHMS512449-supplement-04.xlsx,FAF1 6 13 Fas (TNFRSF6) associated factor 1
+TNF,Pos_Inflamacao,,NIHMS512449-supplement-04.xlsx,TRAF5 7 13 TNF receptor-associated factor 5
+"TNF,Pos_Inflamacao,0.012882495516931332,NIHMS512449-supplement-05.xlsx,""TNFR1 Signaling 0.012882495516931332 PAK1, PAK3, MAP3K1, CASP7"""
