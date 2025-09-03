@@ -46,24 +46,40 @@ surv_obj <- Surv(time = dados$Tempo, event = dados$Status)
 fit <- survfit(surv_obj ~ Condicao, data = dados)
 
 # ------------------------------- #
-# 5) Plotar curva Kaplan-Meier
-# ------------------------------- #
+
+# 5. Plotar curva --------------------------------------------
 km_plot <- ggsurvplot(
   fit,
   data = dados,
   pval = TRUE,
   risk.table = TRUE,
-  ggtheme = theme_minimal(),
+  palette = c("#FFFFFF", "#FFD700"),   # curvas em branco e dourado, bom contraste
+  ggtheme = theme_minimal(base_size = 14) +
+    theme(
+      plot.background = element_rect(fill = "navyblue", color = NA),  # fundo azul
+      panel.background = element_rect(fill = "navyblue", color = NA),
+      panel.grid = element_blank(),
+      axis.title = element_text(color = "white", face = "bold"),
+      axis.text  = element_text(color = "white"),
+      plot.title = element_text(color = "white", face = "bold", hjust = 0.5),
+      legend.background = element_rect(fill = "navyblue", color = NA),
+      legend.key = element_rect(fill = "navyblue", color = NA),
+      legend.text = element_text(color = "white"),
+      legend.title = element_text(color = "white", face = "bold")
+    ),
   title = "Curvas de Kaplan-Meier por Condição"
 )
 
-# ------------------------------- #
-# 6) Salvar gráfico
-# ------------------------------- #
-if (!dir.exists("imagens")) dir.create("imagens", recursive = TRUE)
-ggsave("imagens/kaplan_meier.png", km_plot$plot, width = 8, height = 6, dpi = 300)
+# 6. Salvar gráfico ------------------------------------------
+if (!dir.exists("imagens")) dir.create("imagens")
 
-cat("\nKaplan-Meier finalizado. O gráfico foi salvo em: imagens/kaplan_meier.png\n")
+# Salva só o gráfico principal
+ggsave("imagens/kaplan_meier.png", km_plot$plot, width = 8, height = 6, dpi = 600)
+
+# Se quiser salvar o layout completo (gráfico + tabela de risco):
+ggsave("imagens/kaplan_meier_completo.png", print(km_plot), width = 8, height = 8, dpi = 600)
+
+
 
 # ===========================================================
 # Observação:
