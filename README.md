@@ -74,15 +74,15 @@ Porém, essa redução não foi sustentada: após a abstinência, os níveis vol
 ## 📊 Resultados Visuais  
 
 ### Expressão de Genes Inflamatórios  
-![Boxplot](imagens/boxplot_expressao.png)  
+![Boxplot Expressão](imagens/boxplot_expressao.png)  
 
-### Curvas de Kaplan-Meier  
+### Curvas de Sobrevivência (Kaplan-Meier)  
 ![Kaplan-Meier](imagens/kaplan_meier.png)  
 
 ### Tendência da Expressão Gênica  
-![Tendência](imagens/linha_expressao.png)  
+![Linha Expressão](imagens/linha_expressao.png)  
 
----
+
 
 ## 🚀 Como Usar  
 
