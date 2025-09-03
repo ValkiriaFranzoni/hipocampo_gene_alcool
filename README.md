@@ -1,70 +1,87 @@
-# Impacto do Álcool no Hipocampo
+# Impacto do Álcool no Hipocampo 
 
-Este projeto analisa dados clínicos e de expressão gênica para investigar o impacto do consumo de álcool sobre o hipocampo.  
-A análise inclui **processamento de dados clínicos**, **avaliação de expressão de genes inflamatórios** e **curvas de sobrevivência (Kaplan-Meier)**.
+Este é um projeto **pessoal** de ciência de dados aplicada à biomedicina.  
+Meu objetivo aqui é explorar, de forma prática, como o consumo de álcool pode impactar o **hipocampo** através da **expressão de genes ligados à inflamação**.
+
+O projeto funciona como um **portfólio**, unindo programação em R, análise de dados, estatística e visualização científica.  
+Para quem quiser os **detalhes completos da análise**, eles estão organizados no relatório [report.Rmd](report.Rmd).
 
 ---
+
+
+👩‍💻 Autora
+Valkiria Franzoni dos Anjos da Costa
+📧 Email: valkiriafranzoni@gmail.com
+🔗 LinkedIn: linkedin.com/in/valkiria-franzoni
+
+
+## Objetivo
+
+- Exercitar o uso de **R** em análises biológicas.  
+- Investigar genes inflamatórios (ex.: **IL1B, IL6, TNF-α**) associados à resposta inflamatória no hipocampo.  
+- Explorar como mudanças nesses genes podem estar relacionadas a efeitos do consumo de álcool.  
+- Demonstrar **boas práticas em ciência de dados**: dados crus, scripts reprodutíveis e documentação.
+
+---
+
 
 ## Estrutura do Projeto
 
-- `data/` → contém os dados brutos e tratados  
-- `scripts_R/` → scripts organizados para cada etapa da análise  
-- `imagens/` → gráficos gerados (boxplots, tendência de expressão e Kaplan-Meier)  
-- `resultados/` → tabelas finais exportadas  
-- `report.Rmd` → relatório em RMarkdown com todos os resultados  
-- `README.md` → este arquivo  
+hipocampo_gene_alcool/
+│── data/ # dados brutos e tratados
+│── scripts_R/ # scripts organizados para cada etapa da análise
+│── imagens/ # gráficos gerados (boxplots, curvas de Kaplan-Meier etc.)
+│── resultados/ # tabelas finais exportadas
+│── report.Rmd # relatório completo em RMarkdown
+│── run_all.R # script para executar toda a pipeline
+│── README.md # este arquivo
+
+
 
 ---
 
-## 🔬 Metodologia
+## 🔬 Metodologia (resumida)
 
-1. **Pré-processamento dos dados clínicos**  
-   - Conversão de valores de PMI  
-   - Padronização de variáveis para análise de sobrevivência  
+1. **Pré-processamento**  
+   - Limpeza e organização dos dados.  
+   - Normalização das expressões gênicas.  
 
-2. **Análise de expressão gênica**  
-   - Boxplots comparando condições experimentais  
-   - Tendência de expressão média dos genes  
+2. **Análise exploratória**  
+   - Distribuição de expressão dos genes inflamatórios.  
+   - Visualizações: boxplots, heatmaps.  
 
-3. **Análise de Sobrevivência**  
-   - Curvas de Kaplan-Meier entre grupos (condições clínicas)  
+3. **Modelagem de sobrevivência (Kaplan-Meier)**  
+   - Comparação de grupos com alta vs. baixa expressão.  
 
-4. **Identificação de alvos terapêuticos**  
-   - Extração de potenciais genes associados  
-
----
-
-## Resultados Principais
-
-- Diferenças claras entre condições experimentais nos níveis de expressão gênica.  
-- Identificação de padrões de tendência na resposta inflamatória.  
-- Evidência de associação entre condição clínica e tempo de sobrevivência.  
+4. **Discussão inicial**  
+   - Identificação de possíveis vias inflamatórias envolvidas.  
+   - Interpretação como exercício de portfólio, não como resultado acadêmico.  
 
 ---
 
-## Visualizações
 
-### Expressão de Genes Inflamatórios
-![Boxplot da Expressão](imagens/boxplot_expressao.png)
+## Genes e fases inflamatórias
 
-### Tendência da Expressão Gênica
-![Tendência da Expressão](imagens/linha_expressao.png)
+Neste projeto, foram avaliados três genes centrais na resposta inflamatória:
 
-### Curvas de Kaplan-Meier
-![Kaplan-Meier](imagens/kaplan_meier.png)
+- **IL1B** → fase de **exposição ao álcool**, funcionando como gatilho inicial da inflamação.  
+- **IL6** → fase de **propagação da inflamação**, aumenta após o processo inflamatório agudo.  
+- **TNF-α** → fase de **manutenção crônica / neurodegenerativa**, sustentando a inflamação no longo prazo.  
 
----
 
-## Execução
+## Inflamação na abstinência
+Durante a **abstinência do álcool**, observou-se uma queda na expressão de **IL6**, sugerindo uma tentativa inicial de recuperação do sistema nervoso.  
+No entanto, essa redução não foi sustentada: após a fase de abstinência, a expressão voltou a subir, indicando um possível **efeito rebote inflamatório**.  
+Esse padrão sugere que mesmo sem o consumo contínuo, o cérebro mantém sinais inflamatórios residuais.
 
-Para rodar o projeto localmente:
+
+##  Como usar
+
+Clone o repositório e rode os scripts em R:
 
 ```bash
-# Clonar o repositório
 git clone https://github.com/ValkiriaFranzoni/hipocampo_gene_alcool.git
 cd hipocampo_gene_alcool
-
-# Executar todos os scripts
 Rscript run_all.R
 
 
@@ -75,7 +92,8 @@ O projeto é acadêmico e focado em análise exploratória.
 Resultados podem ser expandidos para artigos e relatórios técnicos.
 
 
-# Autoria
+## 📚 Referências
 
-Projeto desenvolvido por Valkiria Franzoni dos Anjos da Costa, com foco em bioinformática, análise de dados clínicos e expressão gênica.
-
+- Flatscher-Bader T, van der Brug M, Landis N, Wilce PA. Stress-response pathways are altered in the hippocampus of chronic alcoholics. *Alcohol*. 2013;47(6):505-515. doi:10.1016/j.alcohol.2013.08.002  
+  PubMed: https://pubmed.ncbi.nlm.nih.gov/23981442/  
+  PMC (suplementos .xlsx): https://pmc.ncbi.nlm.nih.gov/articles/PMC3836826/

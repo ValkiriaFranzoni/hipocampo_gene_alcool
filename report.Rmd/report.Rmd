@@ -1,0 +1,185 @@
+---
+title: "Impacto do Álcool no Hipocampo"
+author: "Valkiria Franzoni dos Anjos da Costa"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  word_document: default
+---
+
+# Introdução
+
+Este projeto tem como objetivo avaliar como o **consumo crônico de álcool** pode impactar a expressão de genes inflamatórios no hipocampo.  
+O foco está em três genes principais: **IL6, TNF e IL1B**.  
+Além disso, analiso dados de sobrevivência (Kaplan-Meier) e potenciais **alvos terapêuticos**.  
+
+A motivação para esse trabalho vem do meu interesse em entender como fatores externos, como o álcool, podem influenciar processos biológicos complexos no cérebro.  
+Mais do que um estudo formal, este relatório representa minha prática pessoal em bioinformática. 
+
+> Observação pessoal: a parte de expressão gênica foi a que mais exigiu ajustes, especialmente para organizar os dados de entrada.
+
+---
+
+# Dados Clínicos
+
+```{r}
+# Carregar dados clínicos processados
+clinicos <- read.csv("data/processed/clinicos.csv")
+
+# Visualizar primeiras linhas para garantir que o arquivo está correto
+head(clinicos)
+
+
+# Expressão Gênica
+
+
+# Os dados de expressão estão no arquivo expressoes.csv,
+# que já foi previamente organizado.
+
+library(readr)
+
+# Carregar dados de expressão
+expressoes <- read_csv("data/processed/expressoes.csv")
+head(expressoes)
+
+
+# Boxplot das Expressões
+
+library(ggplot2)
+
+ggplot(expressoes, aes(x = Condicao, y = Expressao, fill = Gene)) +
+  geom_boxplot(alpha = 0.6, outlier.shape = 21) +
+  geom_jitter(width = 0.15, alpha = 0.5, size = 2) +
+  labs(
+    title = "Expressão de Genes Inflamatórios",
+    x = "Condição",
+    y = "Nível de expressão"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
+
+
+Nota: o IL1B parece ser o gene mais sensível às condições experimentais.
+Isso pode indicar uma ativação inflamatória persistente, mesmo após abstinência.
+
+
+# Tendência da Expressão
+
+library(dplyr)
+
+# Calcular média de expressão por gene e condição
+dados_media <- expressoes %>%
+  group_by(Gene, Condicao) %>%
+  summarise(media = mean(Expressao, na.rm = TRUE), .groups = "drop")
+
+ggplot(dados_media, aes(x = Condicao, y = media, group = Gene, color = Gene)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  labs(
+    title = "Tendência da Expressão Gênica",
+    x = "Condição",
+    y = "Média de expressão"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
+
+Aqui fica claro que IL6 diminui na abstinência, mas volta a subir no pós-inflamação.
+Esse comportamento merece ser investigado com mais amostras.
+
+
+# Análise de Sobrevivência (Kaplan-Meier)
+
+library(survival)
+library(survminer)
+
+# Criar objeto de sobrevivência
+surv_obj <- Surv(time = clinicos$Tempo, event = clinicos$Status)
+
+# Ajustar modelo Kaplan-Meier por condição
+fit <- survfit(surv_obj ~ Condicao, data = clinicos)
+
+# Plotar curvas de sobrevivência
+km_plot <- ggsurvplot(
+  fit,
+  data = clinicos,
+  risk.table = TRUE,
+  pval = TRUE,
+  ggtheme = theme_minimal(),
+  title = "Curvas de Kaplan-Meier por Condição"
+)
+
+print(km_plot)
+
+
+Durante a execução, percebi que algumas curvas ficaram muito próximas.
+Isso pode ser reflexo do tamanho amostral limitado.
+
+
+# Alvos Terapêuticos
+
+# Carregar tabela de potenciais alvos terapêuticos
+alvos <- read.csv("data/processed/alvos_terapeuticos.csv")
+head(alvos)
+
+Vale destacar que IL1B e IL1R1 apareceram como fortes candidatos.
+Isso reforça a hipótese da via inflamatória como ponto chave.
+
+
+# Discussão: Fases inflamatórias e abstinência
+
+A análise dos genes **IL1B, IL6 e TNF-α** mostra um padrão consistente com três fases da resposta inflamatória associada ao consumo de álcool:
+
+1. **Fase inicial – exposição ao álcool (IL1B)**  
+   - O **IL1B** atua como um **gatilho da inflamação**, sendo rapidamente ativado após a exposição ao álcool.  
+   - No boxplot de expressão, IL1B apresentou aumento precoce, refletindo a ativação da microglia e liberação de citocinas inflamatórias no hipocampo.  
+   - Esse comportamento é esperado, pois o IL1B é um dos primeiros mediadores da resposta inflamatória.
+
+2. **Fase intermediária – propagação da inflamação (IL6)**  
+   - O **IL6** é responsável por **propagar e amplificar a resposta inflamatória**, recrutando outras células de defesa.  
+   - No gráfico de tendência, observa-se uma **redução da expressão durante a abstinência**, sugerindo uma tentativa inicial de recuperação.  
+   - Contudo, essa queda não se mantém: em fases posteriores, o IL6 volta a se elevar, indicando um **efeito rebote**.  
+   - Esse padrão sugere que a abstinência, apesar de reduzir momentaneamente a inflamação, não interrompe o ciclo inflamatório de forma definitiva.
+
+3. **Fase crônica – sustentação neurodegenerativa (TNF-α)**  
+   - O **TNF-α** participa da **manutenção prolongada da inflamação**, podendo contribuir para processos neurodegenerativos.  
+   - Nas curvas de Kaplan-Meier, grupos associados a maior ativação de TNF-α mostraram **piores desfechos clínicos**, ainda que o tamanho amostral limite a significância estatística.  
+   - Esse achado é coerente com o papel do TNF-α em danos cumulativos ao tecido nervoso.
+
+---
+
+## Síntese
+
+- **IL1B** → ativa a inflamação logo na **exposição ao álcool**.  
+- **IL6** → reduz brevemente na **abstinência**, mas retorna em seguida (**efeito rebote**).  
+- **TNF-α** → mantém a inflamação no longo prazo, associada a **processos neurodegenerativos**.  
+
+Esses resultados sugerem que, mesmo durante a abstinência, a inflamação no hipocampo **não é completamente revertida**, mas sim modulada, o que reforça a hipótese de que o álcool pode induzir alterações persistentes na resposta inflamatória cerebral.
+
+
+
+#Conclusão
+Os dados clínicos foram processados e utilizados na análise de sobrevivência.
+
+Os gráficos de expressão gênica mostraram diferenças relevantes entre condições experimentais.
+
+Foram identificados potenciais alvos terapêuticos associados à neuroinflamação.
+
+Embora este seja um projeto pessoal e exploratório, já fornece pistas importantes sobre o impacto do álcool no hipocampo.
+Mais do que resultados definitivos, este trabalho me ajudou a praticar estatística, programação e interpretação biológica, unindo bioinformática e biomedicina.
+Ele pode servir como base para estudos mais robustos e detalhados no futuro.
+
+
+
+# Referências
+
+### Fonte dos dados
+- Flatscher-Bader T, van der Brug M, Landis N, Wilce PA. Stress-response pathways are altered in the hippocampus of chronic alcoholics. *Alcohol*. 2013;47(6):505-515. doi:10.1016/j.alcohol.2013.08.002  
+  PubMed: https://pubmed.ncbi.nlm.nih.gov/23981442/  
+  PMC (suplementos .xlsx): https://pmc.ncbi.nlm.nih.gov/articles/PMC3836826/  
+
+### Referências de apoio
+1. Crews FT, Vetreno RP. Alcohol and neurodegeneration. *Pharmacol Ther.* 2016;163:13-22. doi:10.1016/j.pharmthera.2016.03.004  
+2. Alfonso-Loeches S, Pascual M, Guerri C. Neuroimmunology of alcohol: neuroinflammation and behavior. *Neuroimmunomodulation*. 2013;20(2):109-112. doi:10.1159/000345493  
+3. Erta M, Quintana A, Hidalgo J. Interleukin-6, a major cytokine in the central nervous system. *Int J Biol Sci.* 2012;8(9):1254-1266. doi:10.7150/ijbs.4679  
+4. McCoy MK, Tansey MG. TNF signaling inhibition in the CNS: implications for normal brain function and neurodegenerative disease. *J Neuroinflammation*. 2008;5:45. doi:10.1186/1742-2094-5-45  
+
