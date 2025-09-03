@@ -24,7 +24,6 @@ Os **detalhes completos da análise** estão documentados no relatório [`report
 
 ## 📂 Estrutura do Projeto  
 
-```bash
 hipocampo_gene_alcool/
 │── data/          # dados brutos e tratados  
 │── scripts_R/     # scripts organizados para cada etapa da análise  
@@ -81,7 +80,8 @@ Porém, essa redução não foi sustentada: após a abstinência, os níveis vol
 
 ### Tendência da Expressão Gênica  
 ![Linha Expressão](imagens/linha_expressao.png)  
- 
+
+
 
 
 
