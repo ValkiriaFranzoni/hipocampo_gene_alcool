@@ -53,22 +53,25 @@ km_plot <- ggsurvplot(
   data = dados,
   pval = TRUE,
   risk.table = TRUE,
-  palette = c("#FFFFFF", "#FFD700"),   # curvas em branco e dourado, bom contraste
-  ggtheme = theme_minimal(base_size = 14) +
-    theme(
-      plot.background = element_rect(fill = "navyblue", color = NA),  # fundo azul
-      panel.background = element_rect(fill = "navyblue", color = NA),
-      panel.grid = element_blank(),
-      axis.title = element_text(color = "white", face = "bold"),
-      axis.text  = element_text(color = "white"),
-      plot.title = element_text(color = "white", face = "bold", hjust = 0.5),
-      legend.background = element_rect(fill = "navyblue", color = NA),
-      legend.key = element_rect(fill = "navyblue", color = NA),
-      legend.text = element_text(color = "white"),
-      legend.title = element_text(color = "white", face = "bold")
-    ),
+  ggtheme = theme_minimal(),
+  palette = c("white", "yellow"),
   title = "Curvas de Kaplan-Meier por Condição"
 )
+
+# Ajustar fundo azul e borda preta
+km_plot$plot <- km_plot$plot +
+  theme(
+    plot.background = element_rect(fill = "navyblue", color = "black"),
+    panel.background = element_rect(fill = "navyblue", color = "black"),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 1),
+    legend.background = element_rect(fill = "navyblue", color = NA),
+    legend.key = element_rect(fill = "navyblue", color = "black"),
+    text = element_text(color = "white"),
+    axis.text = element_text(color = "white"),
+    axis.title = element_text(color = "white"),
+    plot.title = element_text(color = "white", face = "bold", hjust = 0.5)
+  )
+
 
 # 6. Salvar gráfico ------------------------------------------
 if (!dir.exists("imagens")) dir.create("imagens")
